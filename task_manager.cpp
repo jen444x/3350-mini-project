@@ -53,6 +53,20 @@ int main() {
     int priority;
     string due_date;
 
+    // Create file
+    fstream my_file;
+    // Opening the file for reading & writing.
+    // ate - sets initial position of the file ptr to the EOF
+	my_file.open("file.txt", ios::out | ios::in | ios::ate);
+
+	if (!my_file) {
+		cout << "File not created!\n";
+	}
+	else {
+		cout << "File created successfully!\n";
+		my_file.close(); 
+	}
+
     cout << "------- WELCOME TO TASK MANAGER -------" << endl << endl;
     cout << date << " - You have" << num << "tasks due today" << endl;
     if (num == 0) 

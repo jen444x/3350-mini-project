@@ -17,38 +17,55 @@ class TaskManager
     public:
     TaskManager() {   
         // Opening the file for reading & writing.
-        my_file.open("tasks.txt", ios::out | ios::in | ios::app);
+        my_file.open("file.txt", ios::in );
         if (!my_file) {
-            cout << "File not created!\n\n";
+            // Create file
+            my_file.open("file.txt", ios::out);
+            if (!my_file) {
+                cout << "Error creating file!\n\n";
+                return;
+            }
         }
         else {
-            cout << "File created successfully!\n\n";
+            // Load tasks from file into vector
+            string task_name, task_date;
+            Task_attributes data;
+
+            while (my_file >> task_name >> task_date) {
+                data.name = task_name;
+                data.due_date = task_date;
+                vec.push_back(data);
+                //cout << vec.back().name << " " << vec.back().due_date << endl;
+            }
+
+            my_file.close();
         }     
-
-        // Load tasks from file into vector
-        string task_name, task_date;
-        Task_attributes data;
-
-        while (my_file >> task_name >> task_date) {
-            data.name = task_name;
-            data.due_date = task_date;
-            vec.push_back(data);
-            cout << vec.back().name << " " << vec.back().due_date << endl;
-        }
     }
     ~TaskManager() {
-        // Save tasks to file 
-        my_file.close(); // close file
+        // Save tasks from vector to file 
+        my_file.open("file.txt", ios::out);
+        if (my_file.is_open()) {
+            for (auto& a : vec) {
+                my_file << a.name << " " << a.due_date << "\n";
+            }
+            cout << "Data saved succesfully.\n\n";
+
+            my_file.close(); 
+        }
+        else {
+            cout << "File is not open. Task not added.\n\n";
+        }
     }
     void add_task(string name, string due_date)
     {
-        // add task to file
-        if (my_file.is_open()) {
-            my_file << name << " " << due_date << "\n";
-            my_file.flush(); // Flush the output stream
-            cout << "Task added successfully!\n\n";
-        } else {
-            cout << "File is not open. Task not added.\n\n";
+        Task_attributes data;
+        data.name = name;
+        data.due_date = due_date;
+        // add task to vector
+        vec.push_back(data);
+        
+        for (auto& a : vec) {
+            cout << a.name << " " << a.due_date << endl;
         }
     }
     void edit_task()
@@ -97,8 +114,6 @@ int main() {
         getline(cin, due_date);
 
         manager.add_task(name, due_date);
-
-        // add_task();
     }
     else if (input == 'e')
     {

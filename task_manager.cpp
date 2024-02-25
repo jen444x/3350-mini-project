@@ -1,21 +1,30 @@
 #include <iostream> 
+#include <fstream>
 
 using namespace std;
 
-class Task
+class TaskManager
 {
     private:
         string name;
         int priority;
         string due_date;
+        fstream my_file;
     public:
-    Task() {
-
+    TaskManager() {    
+        // Opening the file for reading & writing.
+        my_file.open("tasks.txt", ios::out | ios::in | ios::app);
+        if (!my_file) {
+            cout << "File not created!\n\n";
+        }
+        else {
+            cout << "File created successfully!\n\n";
+        }
     }
-    ~Task() {
-
+    ~TaskManager() {
+        my_file.close(); // close file
     }
-    sring get_name()
+    string get_name()
     {
         return name;
     }
@@ -23,7 +32,7 @@ class Task
     {
         name = n;
     }
-    sring get_due_date()
+    string get_due_date()
     {
         return due_date;
     }
@@ -33,6 +42,15 @@ class Task
     }
     void add_task()
     {
+        // add task to file
+        if (my_file.is_open()) {
+            my_file << name << " " << due_date << "\n";
+            my_file.flush(); // Flush the output stream
+            cout << "Task added successfully!\n\n";
+        } else {
+            cout << "File is not open. Task not added.\n\n";
+    }
+
     }
     void edit_task()
     {
@@ -47,34 +65,21 @@ class Task
 };
 
 int main() {
-    Task task1;
+    TaskManager manager;
+
     char input;
-    string name;
-    int priority;
+    string name, date;
+    int priority, num;
     string due_date;
-
-    // Create file
-    fstream my_file;
-    // Opening the file for reading & writing.
-    // ate - sets initial position of the file ptr to the EOF
-	my_file.open("file.txt", ios::out | ios::in | ios::ate);
-
-	if (!my_file) {
-		cout << "File not created!\n";
-	}
-	else {
-		cout << "File created successfully!\n";
-		my_file.close(); 
-	}
-
+/*
     cout << "------- WELCOME TO TASK MANAGER -------" << endl << endl;
     cout << date << " - You have" << num << "tasks due today" << endl;
     if (num == 0) 
         cout << "YAY do something other than homework today ;D" << endl;
     else
         cout << "Get to work, you got this!!" << endl;
-
-    do{    
+*/
+    do {    
     cout << "Choose an option:" << endl;
     cout << "a: add task" << endl;
     cout << "e: edit task" << endl;
@@ -82,42 +87,46 @@ int main() {
     cout << "s: show current tasks" << endl;
     cout << "q: quit" << endl;
     cin >> input;
-    } while (input != 'q');
-
+    cin.ignore();
+    
     if (input == 'a')
     {
         cout << "Name of task: ";
         getline(cin, name);
+
         cout << "Due date of task: ";
         getline(cin, due_date);
 
-        task1.set_name(name);
-        task1.set_due_date(due_date);
+        manager.set_name(name);
+        manager.set_due_date(due_date);
+        manager.add_task();
 
-        add_task();
+        // add_task();
     }
     else if (input == 'e')
     {
         cout << "Name of task that needs editing: ";
         getline(cin, name);
 
-        task1.set_name(name);
+        manager.set_name(name);
 
-        edit_task();
+        // edit_task();
     }
     else if (input == 'd')
     {
         cout << "Name of task to delete: ";
         getline(cin, name);
 
-        task1.set_name(name);
+        manager.set_name(name);
 
-        delete_task();
+        // delete_task();
     }
     else if (input == 's')
     {
-        show_tasks()
+        // show_tasks()
     }   
+
+} while (input != 'q');
 
     return 0;
 }

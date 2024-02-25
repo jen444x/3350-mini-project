@@ -1,17 +1,21 @@
 #include <iostream> 
 #include <fstream>
+#include <bits/stdc++.h>
 
 using namespace std;
 
 class TaskManager
 {
     private:
-        string name;
-        int priority;
-        string due_date;
+        struct Task_attributes {
+            string name;
+            string due_date;
+            // int priority;  
+        };
+        vector<Task_attributes> vec;
         fstream my_file;
     public:
-    TaskManager() {    
+    TaskManager() {   
         // Opening the file for reading & writing.
         my_file.open("tasks.txt", ios::out | ios::in | ios::app);
         if (!my_file) {
@@ -19,28 +23,24 @@ class TaskManager
         }
         else {
             cout << "File created successfully!\n\n";
+        }     
+
+        // Load tasks from file into vector
+        string task_name, task_date;
+        Task_attributes data;
+
+        while (my_file >> task_name >> task_date) {
+            data.name = task_name;
+            data.due_date = task_date;
+            vec.push_back(data);
+            cout << vec.back().name << " " << vec.back().due_date << endl;
         }
     }
     ~TaskManager() {
+        // Save tasks to file 
         my_file.close(); // close file
     }
-    string get_name()
-    {
-        return name;
-    }
-    void set_name(string n)
-    {
-        name = n;
-    }
-    string get_due_date()
-    {
-        return due_date;
-    }
-    void set_due_date(string dd)
-    {
-        due_date = dd;
-    }
-    void add_task()
+    void add_task(string name, string due_date)
     {
         // add task to file
         if (my_file.is_open()) {
@@ -49,8 +49,7 @@ class TaskManager
             cout << "Task added successfully!\n\n";
         } else {
             cout << "File is not open. Task not added.\n\n";
-    }
-
+        }
     }
     void edit_task()
     {
@@ -97,9 +96,7 @@ int main() {
         cout << "Due date of task: ";
         getline(cin, due_date);
 
-        manager.set_name(name);
-        manager.set_due_date(due_date);
-        manager.add_task();
+        manager.add_task(name, due_date);
 
         // add_task();
     }
@@ -108,7 +105,6 @@ int main() {
         cout << "Name of task that needs editing: ";
         getline(cin, name);
 
-        manager.set_name(name);
 
         // edit_task();
     }
@@ -117,7 +113,6 @@ int main() {
         cout << "Name of task to delete: ";
         getline(cin, name);
 
-        manager.set_name(name);
 
         // delete_task();
     }

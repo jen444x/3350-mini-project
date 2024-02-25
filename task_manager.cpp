@@ -37,9 +37,8 @@ class TaskManager
                 vec.push_back(data);
                 //cout << vec.back().name << " " << vec.back().due_date << endl;
             }
-
-            my_file.close();
         }     
+        my_file.close();
     }
     ~TaskManager() {
         // Save tasks from vector to file 

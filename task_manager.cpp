@@ -70,14 +70,38 @@ class TaskManager
     void edit_task()
     {
     }
-    void delete_task()
-    {
+    bool delete_task(string n)
+    {   
+        char input;
+        // find task
+        int size = vec.size();
+        for (int i = 0; i < size; i++) {
+            if (vec[i].name == n) {
+                // confirm its the correct task
+                do {
+                    cout << "Task found: " << vec[i].name << " due on " << vec[i].due_date << "\n\n"
+                            "Press 'c' to confirm deletion of this task.\n"
+                            "Press 'x' to continue looking without deleting.\n";
+                    cin >> input;
+                    cin.ignore();
+
+                    // if it's not, continue to look for it
+                    if (input == 'c') {
+                        // delete task
+                        vec.erase(vec.begin()+i);
+                        return true;
+                    }
+                } while (input != 'x');
+            }
+        }
+        return false;
     }
     void show_tasks()
     {
     }
     
 };
+
 
 int main() {
     TaskManager manager;
@@ -95,46 +119,48 @@ int main() {
         cout << "Get to work, you got this!!" << endl;
 */
     do {    
-    cout << "Choose an option:" << endl;
-    cout << "a: add task" << endl;
-    cout << "e: edit task" << endl;
-    cout << "d: delete task" << endl;
-    cout << "s: show current tasks" << endl;
-    cout << "q: quit" << endl;
-    cin >> input;
-    cin.ignore();
-    
-    if (input == 'a')
-    {
-        cout << "Name of task: ";
-        getline(cin, name);
+        cout << "Choose an option:" << endl;
+        cout << "a: add task" << endl;
+        cout << "e: edit task" << endl;
+        cout << "d: delete task" << endl;
+        cout << "s: show current tasks" << endl;
+        cout << "q: quit" << endl;
+        cin >> input;
+        cin.ignore();
+        
+        if (input == 'a')
+        {
+            cout << "Name of task: ";
+            getline(cin, name);
 
-        cout << "Due date of task: ";
-        getline(cin, due_date);
+            cout << "Due date of task: ";
+            getline(cin, due_date);
 
-        manager.add_task(name, due_date);
-    }
-    else if (input == 'e')
-    {
-        cout << "Name of task that needs editing: ";
-        getline(cin, name);
-
-
-        // edit_task();
-    }
-    else if (input == 'd')
-    {
-        cout << "Name of task to delete: ";
-        getline(cin, name);
+            manager.add_task(name, due_date);
+        }
+        else if (input == 'e')
+        {
+            cout << "Name of task that needs editing: ";
+            getline(cin, name);
 
 
-        // delete_task();
-    }
-    else if (input == 's')
-    {
-        // show_tasks()
-    }   
-
+            // edit_task();
+        }
+        else if (input == 'd')
+        {
+            cout << "Name of task to delete: ";
+            getline(cin, name);
+            if (manager.delete_task(name)) {
+                cout << "Succesfuly deleted.\n\n";
+            }
+            else {
+                cout << "No task was deleted.\n\n";
+            }
+        }
+        else if (input == 's')
+        {
+            // show_tasks()
+        }   
 } while (input != 'q');
 
     return 0;

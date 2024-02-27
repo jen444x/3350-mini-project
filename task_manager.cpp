@@ -69,6 +69,28 @@ class TaskManager
     }
     void edit_task()
     {
+        char input;
+        // find task
+        int size = vec.size();
+        for (int i = 0; i < size; i++) {
+            if (vec[i].name == n) {
+                do {
+                    cout << "Task found: " << vec[i].name << " due on " << vec[i].due_date << "\n\n"
+                            "Press 'n' to edit the name of the task.\n"
+                            "Press 'd' to edit the due date of the task.\n";
+                    cin >> input;
+                    cin.ignore();
+
+                    if (input == 'n') {
+                    
+                    }
+                    else if (input == 'd') {
+                    }
+                    else {
+                        cout << "Input not recognised.\n";
+                    } while (input != 'n' || input != 'd');
+            }
+        }
     }
     bool delete_task(string n)
     {   
@@ -123,7 +145,7 @@ int main() {
         cout << "e: edit task" << endl;
         cout << "d: delete task" << endl;
         cout << "s: show current tasks" << endl;
-        cout << "q: quit" << endl;
+        cout << "q: quit" << endl << endl;
         cin >> input;
         cin.ignore();
         
@@ -158,6 +180,7 @@ int main() {
         }
         else if (input == 's')
         {
+            cout << "Here are all your current tasks: " << endl << endl;
             // show_tasks()
         }   
 } while (input != 'q');

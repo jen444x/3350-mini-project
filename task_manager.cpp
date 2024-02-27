@@ -27,15 +27,24 @@ class TaskManager
             }
         }
         else {
-            // Load tasks from file into vector
-            string task_name, task_date;
+           /*string task_name, task_date;
             Task_attributes data;
 
             while (my_file >> task_name >> task_date) {
                 data.name = task_name;
                 data.due_date = task_date;
                 vec.push_back(data);
-                //cout << vec.back().name << " " << vec.back().due_date << endl;
+                cout << vec.back().name << " " << vec.back().due_date << endl;
+            }*/ 
+            // Load tasks from file into vector
+            string task_name, task_date;
+            Task_attributes data;
+
+            while (getline (my_file, task_name) && getline(my_file, task_date)) {
+                data.name = task_name;
+                data.due_date = task_date;
+                vec.push_back(data);
+                cout << vec.back().name << " " << vec.back().due_date << endl;
             }
         }     
         my_file.close();
@@ -45,7 +54,7 @@ class TaskManager
         my_file.open("file.txt", ios::out);
         if (my_file.is_open()) {
             for (auto& a : vec) {
-                my_file << a.name << " " << a.due_date << "\n";
+                my_file << a.name << "\n" << a.due_date << "\n";
             }
             cout << "Data saved succesfully.\n\n";
 
@@ -63,11 +72,12 @@ class TaskManager
         // add task to vector
         vec.push_back(data);
         
-        for (auto& a : vec) {
+        cout << "\nTask has been added.\n\n";
+        /*for (auto& a : vec) {
             cout << a.name << " " << a.due_date << endl;
-        }
+        }*/
     }
-    void edit_task()
+/*   void edit_task()
     {
         char input;
         // find task
@@ -89,9 +99,10 @@ class TaskManager
                     else {
                         cout << "Input not recognised.\n";
                     } while (input != 'n' || input != 'd');
+                }
             }
         }
-    }
+    }*/ 
     bool delete_task(string n)
     {   
         char input;
@@ -121,7 +132,6 @@ class TaskManager
     void show_tasks()
     {
     }
-    
 };
 
 int main() {

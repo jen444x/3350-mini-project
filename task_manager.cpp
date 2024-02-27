@@ -77,9 +77,10 @@ class TaskManager
             cout << a.name << " " << a.due_date << endl;
         }*/
     }
-/*   void edit_task()
+   bool edit_task(string n)
     {
         char input;
+        string new_name, new_ddate;
         // find task
         int size = vec.size();
         for (int i = 0; i < size; i++) {
@@ -92,17 +93,27 @@ class TaskManager
                     cin.ignore();
 
                     if (input == 'n') {
-                    
+                        cout << "New name: ";
+                        cin >> new_name;
+
+                        vec[i].name = new_name;
+                        return true;
                     }
                     else if (input == 'd') {
+                        cout << "New due date: ";
+                        cin >> new_ddate;
+
+                        vec[i].due_date = new_ddate;
+                        return true;
                     }
                     else {
                         cout << "Input not recognised.\n";
-                    } while (input != 'n' || input != 'd');
-                }
+                    }
+                 } while (input != 'n' || input != 'd');
             }
         }
-    }*/ 
+        return false;
+    } 
     bool delete_task(string n)
     {   
         char input;
@@ -131,6 +142,10 @@ class TaskManager
     }
     void show_tasks()
     {
+        int size = vec.size();
+        for (int i = 0; i < size; i++) {
+            cout << vec[i].name << endl;
+        }
     }
 };
 
@@ -175,7 +190,12 @@ int main() {
             getline(cin, name);
 
 
-            // edit_task();
+            if(manager.edit_task(name)) {
+                cout << "Succesfully edited.\n\n";
+            }
+            else {
+                cout << "No task was edited.\n\n";
+            }
         }
         else if (input == 'd')
         {
@@ -191,7 +211,7 @@ int main() {
         else if (input == 's')
         {
             cout << "Here are all your current tasks: " << endl << endl;
-            // show_tasks()
+            manager.show_tasks();
         }   
 } while (input != 'q');
 

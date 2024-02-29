@@ -77,14 +77,18 @@ class TaskManager
     {
         char input;
         string new_name, new_ddate;
+        bool found;
+
         // find task
         int size = vec.size();
         for (int i = 0; i < size; i++) {
             if (vec[i].name == n) {
                 do {
+                    found = true;
                     cout << "Task found: " << vec[i].name << " due on " << vec[i].due_date << "\n\n"
                             "Press 'n' to edit the name of the task.\n"
-                            "Press 'd' to edit the due date of the task.\n";
+                            "Press 'd' to edit the due date of the task.\n"
+                            "Press 'x' to continue looking without deleting.\n";;
                     cin >> input;
                     cin.ignore();
 
@@ -105,23 +109,32 @@ class TaskManager
                         sort(vec.begin(), vec.end(), compare_dates);
                         return true;
                     }
+                    else if (input == 'x') {
+                        found == true;
+                    }
                     else {
                         cout << "Input not recognised.\n";
                     }
-                 } while (input != 'n' || input != 'd');
+                 } while (input != 'x');
             }
+        }
+        if (found == false) {
+            cout << n << " was not found.\n\n";
         }
         return false;
     } 
     bool delete_task(string n)
     {   
         char input;
+        bool found = false;
+
         // find task
         int size = vec.size();
         for (int i = 0; i < size; i++) {
             if (vec[i].name == n) {
                 // confirm its the correct task
                 do {
+                    found = true;
                     cout << "Task found: " << vec[i].name << " due on " << vec[i].due_date << "\n\n"
                             "Press 'c' to confirm deletion of this task.\n"
                             "Press 'x' to continue looking without deleting.\n";
@@ -136,6 +149,9 @@ class TaskManager
                     }
                 } while (input != 'x');
             }
+        }
+        if (found == false) {
+            cout << n << " was not found.\n\n";
         }
         return false;
     }

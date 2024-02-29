@@ -10,7 +10,8 @@ class TaskManager
         struct Task_attributes {
             string name;
             string due_date;
-            // int priority;  
+            int priority;  // 1 - high priority, 2 - med priority, 3 - low priority
+            // string description
         };
         vector<Task_attributes> vec;
         fstream my_file;
@@ -28,14 +29,16 @@ class TaskManager
         }
         else {
             // Load tasks from file into vector
-            string task_name, task_date;
+            string task_name, task_date, priority_str;
+            int priority;
             Task_attributes data;
 
-            while (getline (my_file, task_name) && getline(my_file, task_date)) {
+            while (getline(my_file, task_name) && getline(my_file, task_date) && getline(my_file, priority_str)) {
                 data.name = task_name;
                 data.due_date = task_date;
+                priority = stoi(priority_str);
+                data.priority = priority;
                 vec.push_back(data);
-                cout << vec.back().name << " " << vec.back().due_date << endl;
             }
         }     
         my_file.close();
@@ -45,7 +48,7 @@ class TaskManager
         my_file.open("file.txt", ios::out);
         if (my_file.is_open()) {
             for (auto& a : vec) {
-                my_file << a.name << "\n" << a.due_date << "\n";
+                my_file << a.name << "\n" << a.due_date << "\n" << a.priority << "\n";
             }
             cout << "Data saved succesfully.\n\n";
 
@@ -57,14 +60,24 @@ class TaskManager
     }
 
     static bool compare_dates (Task_attributes& task1, Task_attributes& task2) {
-        return (task1.due_date < task2.due_date);  // soonest dates go first
+        bool less_than = false;
+        if (task1.due_date <= task2.due_date) {
+            if (task1.priority < task2.priority) {
+                less_than = true;
+            }
+            else {
+                less_than = false;
+            }
+        }
+        return less_than;  // soonest dates go first
     }
 
-    void add_task(string name, string due_date)
+    void add_task(string name, string due_date, int priority)
     {
         Task_attributes data;
         data.name = name;
         data.due_date = due_date;
+        data.priority = priority;
         // add task to vector
         vec.push_back(data);
         
@@ -206,7 +219,11 @@ int main() {
             cout << "Due date of task: ";
             getline(cin, due_date);
 
-            manager.add_task(name, due_date);
+            cout << "Priority level (Choose 1, 2, or 3): ";
+            cin >> priority;
+            cin.ignore();
+
+            manager.add_task(name, due_date, priority);
         }
         else if (input == 'e')
         {

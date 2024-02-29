@@ -56,8 +56,8 @@ class TaskManager
         }
     }
 
-    static bool compare_dates (string date1, string date2) {
-        return (date1 < date2);  // soonest dates go first
+    static bool compare_dates (Task_attributes& task1, Task_attributes& task2) {
+        return (task1.due_date < task2.due_date);  // soonest dates go first
     }
 
     void add_task(string name, string due_date)
@@ -70,19 +70,8 @@ class TaskManager
         
         cout << "\nTask has been added.\n\n";
 
-        for (auto& a : vec) {
-            cout << "not sorted:\n";
-            cout << a.name << " " << a.due_date << endl;
-        }
-
-        // sort data when something is added
-
+        // sort data
         sort(vec.begin(), vec.end(), compare_dates);
-        cout << "sorted:\n";
-        for (auto& a : vec) {
-            cout << a.name << " " << a.due_date << endl;
-        }
-
     }
    bool edit_task(string n)
     {
@@ -111,6 +100,9 @@ class TaskManager
                         cin >> new_ddate;
 
                         vec[i].due_date = new_ddate;
+
+                        // sort data
+                        sort(vec.begin(), vec.end(), compare_dates);
                         return true;
                     }
                     else {

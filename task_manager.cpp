@@ -27,15 +27,6 @@ class TaskManager
             }
         }
         else {
-           /*string task_name, task_date;
-            Task_attributes data;
-
-            while (my_file >> task_name >> task_date) {
-                data.name = task_name;
-                data.due_date = task_date;
-                vec.push_back(data);
-                cout << vec.back().name << " " << vec.back().due_date << endl;
-            }*/ 
             // Load tasks from file into vector
             string task_name, task_date;
             Task_attributes data;
@@ -64,6 +55,11 @@ class TaskManager
             cout << "File is not open. Task not added.\n\n";
         }
     }
+
+    static bool compare_dates (string date1, string date2) {
+        return (date1 < date2);  // soonest dates go first
+    }
+
     void add_task(string name, string due_date)
     {
         Task_attributes data;
@@ -73,9 +69,20 @@ class TaskManager
         vec.push_back(data);
         
         cout << "\nTask has been added.\n\n";
-        /*for (auto& a : vec) {
+
+        for (auto& a : vec) {
+            cout << "not sorted:\n";
             cout << a.name << " " << a.due_date << endl;
-        }*/
+        }
+
+        // sort data when something is added
+
+        sort(vec.begin(), vec.end(), compare_dates);
+        cout << "sorted:\n";
+        for (auto& a : vec) {
+            cout << a.name << " " << a.due_date << endl;
+        }
+
     }
    bool edit_task(string n)
     {

@@ -144,8 +144,9 @@ class TaskManager
     {
         int size = vec.size();
         for (int i = 0; i < size; i++) {
-            cout << vec[i].name << endl;
+            cout << vec[i].name << " - Due on " << vec[i].due_date << endl;
         }
+        cout << endl;
     }
 };
 
@@ -156,6 +157,14 @@ int main() {
     string name, date;
     int priority, num;
     string due_date;
+    char buf[BUFSIZ];
+
+    time_t timer;
+    struct tm *tm_info;
+    time(&timer);
+    tm_info = localtime(&timer);
+    strftime(buf, 26, "%Y:%m:%d\n", tm_info);
+    cout << buf << endl;
 /*
     cout << "------- WELCOME TO TASK MANAGER -------" << endl << endl;
     cout << date << " - You have" << num << "tasks due today" << endl;

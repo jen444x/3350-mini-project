@@ -91,7 +91,7 @@ class TaskManager
                             "Press 'n' to edit the name.\n"
                             "Press 'd' to edit the due date.\n"
                             "Press 'p' to edit the priority.\n"
-                            "Press 'x' to continue looking without deleting.\n";;
+                            "Press 'x' to continue looking without editing.\n";;
                     cin >> input;
                     cin.ignore();
 
@@ -104,7 +104,7 @@ class TaskManager
                     }
                     else if (input == 'd') {
                         do {
-                            cout << "New due date: ";
+                            cout << "New due date (year:month:day | example 2024:03:04): ";
                             cin >> new_ddate;
                         } while (!valid_date_format(new_ddate));
 
@@ -255,7 +255,7 @@ int main() {
             cout << "Name of task: ";
             getline(cin, name);
             do {
-                cout << "Due date of task: ";
+                cout << "Due date of task (year:month:day | example: 2024:03:04): ";
                 getline(cin, due_date);
             } while (!manager.valid_date_format(due_date));
             do {
